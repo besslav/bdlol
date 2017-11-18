@@ -1,0 +1,42 @@
+simple:
+1
+SELECT "champ","pick chance"*"win rate"/100 AS "champ win chance" from "ingame" WHERE div=1 ORDER BY "pick chance"*"win rate"  
+(Покажет шанс того, что в случайной игре будет выбран и победит герой)
+2
+SELECT DISTINCT "champ" AS "good winrate " from "ingame" WHERE "win rate">50
+ (выбрать персонажей с положительным процентом побед, хотя бы в 1 дивизионе)
+3
+select "champions" from champions where "line"=2 and "role"=3 
+  (выбрать персонажей с определенной ролью и линией )
+4
+SELECT "type"='ad'   FROM "damage" where "1lvl dmg">70
+ (выбрать персонажей с типом урона ad)
+average:
+1	
+SELECT "champions","1lvl dmg" 
+FROM "champions" INNER JOIN  "damage"  ON (champions.id=damage.id) 
+2
+SELECT DISTINCT "champions","division","1lvl dmg" AS "yron" ,"hp"
+FROM "ingame"  
+  RIGHT JOIN "division" ON (division.id= division.id) 
+  RIGHT JOIN  "champions" ON (champions.id = champions.id)
+CROSS JOIN  "damage","survival"
+WHERE ( champions.id = damage.id) AND ( champions.id =survival.id )  AND (hp>800)
+3
+SELECT "champions","roles"
+FROM "champions" INNER JOIN  "roles"  ON (champions.id=roles.id) 
+     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
