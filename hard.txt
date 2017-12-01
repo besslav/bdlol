@@ -1,0 +1,27 @@
+﻿hard:
+1
+SELECT ch.champions,  ch.damage
+FROM "champions" AS ch 
+  left JOIN "damage" AS d 
+ ON ( ch.damage = d."1lvl dmg" AND  d.type = 'ad' AND d."1lvl dmg">75  )
+ //запрос должен выбирать всех персонажей с достаточно высоким физическим(AD) уроном
+     
+2
+	
+ SELECT DISTINCT ch.champions,st.*
+FROM (SELECT 'info' AS "champ","ban chance","win rate","pick chance" FROM ingame WHERE ("win rate">50 AND "pick chance"<1.5) ) AS st
+INNER JOIN  (SELECT champions FROM champions) AS ch ON st.champ= ch.champions;
+ //запрос должен выбирать не популярных(низкий pick chance) персонажей с высоким процентом побед хотябы в 1 дивизионе
+3
+ SELECT (SELECT AVG("hp") FROM survival )/(SELECT AVG("1lvl dmg") FROM damage ) AS kolvo_attack;
+// запрос показывает среднее количество атак в чистом уроне(игнорируя защиту(armor and mag rez), необходимых для убийства персонажа)
+
+
+
+
+
+
+
+
+
+
