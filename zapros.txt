@@ -1,32 +1,39 @@
-simple:
+Ôªøsimple:
 1
 SELECT "champ","pick chance"*"win rate"/100 AS "champ win chance" from "ingame" WHERE div=1 ORDER BY "pick chance"*"win rate"  
-(œÓÍ‡ÊÂÚ ¯‡ÌÒ ÚÓ„Ó, ˜ÚÓ ‚ ÒÎÛ˜‡ÈÌÓÈ Ë„Â ·Û‰ÂÚ ‚˚·‡Ì Ë ÔÓ·Â‰ËÚ „ÂÓÈ)
+(–ü–æ–∫–∞–∂–µ—Ç —à–∞–Ω—Å —Ç–æ–≥–æ, —á—Ç–æ –≤ —Å–ª—É—á–∞–π–Ω–æ–π –∏–≥—Ä–µ –±—É–¥–µ—Ç –≤—ã–±—Ä–∞–Ω –∏ –ø–æ–±–µ–¥–∏—Ç –≥–µ—Ä–æ–π)
 2
 SELECT DISTINCT "champ" AS "good winrate " from "ingame" WHERE "win rate">50
- (‚˚·‡Ú¸ ÔÂÒÓÌ‡ÊÂÈ Ò ÔÓÎÓÊËÚÂÎ¸Ì˚Ï ÔÓˆÂÌÚÓÏ ÔÓ·Â‰, ıÓÚˇ ·˚ ‚ 1 ‰Ë‚ËÁËÓÌÂ)
+ (–≤—ã–±—Ä–∞—Ç—å –ø–µ—Ä—Å–æ–Ω–∞–∂–µ–π —Å –ø–æ–ª–æ–∂–∏—Ç–µ–ª—å–Ω—ã–º –ø—Ä–æ—Ü–µ–Ω—Ç–æ–º –ø–æ–±–µ–¥, —Ö–æ—Ç—è –±—ã –≤ 1 –¥–∏–≤–∏–∑–∏–æ–Ω–µ)
 3
 select "champions" from champions where "line"=2 and "role"=3 
-  (‚˚·‡Ú¸ ÔÂÒÓÌ‡ÊÂÈ Ò ÓÔÂ‰ÂÎÂÌÌÓÈ ÓÎ¸˛ Ë ÎËÌËÂÈ )
+  (–≤—ã–±—Ä–∞—Ç—å –ø–µ—Ä—Å–æ–Ω–∞–∂–µ–π —Å –æ–ø—Ä–µ–¥–µ–ª–µ–Ω–Ω–æ–π —Ä–æ–ª—å—é –∏ –ª–∏–Ω–∏–µ–π )
 4
-SELECT "type"='ad'   FROM "damage" where "1lvl dmg">70
- (‚˚·‡Ú¸ ÔÂÒÓÌ‡ÊÂÈ Ò ÚËÔÓÏ ÛÓÌ‡ ad)
+SELECT "id"   FROM "damage" where type= 'ad'
+ (–≤—ã–±—Ä–∞—Ç—å id –ø–µ—Ä—Å–æ–Ω–∞–∂–µ–π —Å —Ç–∏–ø–æ–º —É—Ä–æ–Ω–∞ ad)
+
+
 average:
-1	
+
+1
+	
 SELECT "champions","1lvl dmg" 
 FROM "champions" INNER JOIN  "damage"  ON (champions.id=damage.id) 
-2
-SELECT DISTINCT "champions","division","1lvl dmg" AS "yron" ,"hp"
-FROM "ingame"  
-  RIGHT JOIN "division" ON (division.id= division.id) 
-  RIGHT JOIN  "champions" ON (champions.id = champions.id)
-CROSS JOIN  "damage","survival"
-WHERE ( champions.id = damage.id) AND ( champions.id =survival.id )  AND (hp>800)
-3
-SELECT "champions","roles"
-FROM "champions" INNER JOIN  "roles"  ON (champions.id=roles.id) 
-     
+ORDER BY damage."1lvl dmg"
+//–ø–µ—Ä—Å–æ–Ω–∞–∂–∏ –∏ –∏—Ö —É—Ä–æ–Ω
 
+2
+SELECT DISTINCT "champions","division","ban chance","win rate","pick chance"
+FROM "ingame"  
+  INNER JOIN "division" ON (ingame.div= division.id) 
+  INNER JOIN  "champions" ON (ingame.champ = champions.id)
+//–∑–∞–ø—Ä–æ—Å –ø–æ–∫–∞–∑—ã–≤–∞–µ—Ç –≤—Å–µ—Ö –ø–µ—Ä—Å–æ–Ω–∞–∂–µ–π –∏ –∏—Ö —Å—Ç–∞—Ç–∏—Å—Ç–∏–∫—É –≤ –∑–∞–≤–∏—Å–∏–º–æ—Å—Ç–∏ –æ—Ç –¥–∏–≤–∏–∑–∏–æ–Ω–∞
+
+     
+3
+
+SELECT (SELECT AVG("hp") FROM survival )/(SELECT AVG("1lvl dmg") FROM damage ) AS kolvo_attack;
+// –∑–∞–ø—Ä–æ—Å –ø–æ–∫–∞–∑—ã–≤–∞–µ—Ç —Å—Ä–µ–¥–Ω–µ–µ –∫–æ–ª–∏—á–µ—Å—Ç–≤–æ –∞—Ç–∞–∫ –≤ —á–∏—Å—Ç–æ–º —É—Ä–æ–Ω–µ(–∏–≥–Ω–æ—Ä–∏—Ä—É—è –∑–∞—â–∏—Ç—É(armor and mag rez), –Ω–µ–æ–±—Ö–æ–¥–∏–º—ã—Ö –¥–ª—è —É–±–∏–π—Å—Ç–≤–∞ –ø–µ—Ä—Å–æ–Ω–∞–∂–∞)
 
 
 
