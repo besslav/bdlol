@@ -1,0 +1,81 @@
+﻿Дополнения/ обновления запросов
+
+
+ простые
+
+ 1
+ SELECT  "champ",max("win rate"),min("win rate") from "ingame" WHERE "win rate">50  
+GROUP BY "champ"
+ORDER BY "champ"
+// выводит id персонажа с положительным процентом побед, максимальное и минимальное значение этого процента 
+// доработка 2 запроса(появилась группировка )
+
+2
+SELECT "id" FROM "damage" where type= 'ad' 
+//исправление 4 запроса
+
+3
+SELECT (SELECT AVG("hp") FROM survival )/(SELECT AVG("1lvl dmg") FROM damage ) AS kolvo_attack;
+// запрос показывает среднее количество атак в чистом уроне(игнорируя защиту(armor and mag rez), необходимых для убийства персонажа)
+
+// вы писали о недостатке мат функций (на средний запрос, как я понял это не тянет, поэтому понизил его до простого) 
+
+////оставшиеся 2 запроса остались без изменений
+
+
+средние
+
+1 
+SELECT "champions","1lvl dmg" 
+FROM "champions" 
+INNER JOIN  "damage"  ON (champions.damage=damage.id) 
+ORDER BY damage."1lvl dmg"
+//персонажи и их урон
+// исправил условие 1 запроса
+
+2
+SELECT DISTINCT ch."champions", r."role", l."line"
+FROM "champions" AS ch  
+  INNER JOIN "roles"  AS r
+  ON (ch.role= r.id) 
+INNER JOIN "lines" AS l
+ON (ch.line = l.id)
+//запрос выводит персонажей, их роль в игре и линию, на которой обычно стоит этот персонаж
+
+
+сложное
+2
+ SELECT DISTINCT ch.champions
+FROM  ingame AS g    
+INNER JOIN champions AS ch ON (g.champ= ch.id) WHERE (g."win rate">50 AND g."pick chance"<1.5);
+// добавил недостающие префиксы
+// в 3ем запросе я не увидел недостающих алиасов
+
+
+Доп сложные(с группировкой )
+
+1
+SELECT  ch.champions,min(g."ban chance") as min_ban_chance ,dm."1lvl dmg"
+FROM "ingame" AS g
+  INNER JOIN "division" AS d
+ON (g.div=d.id)
+  INNER JOIN "champions" AS ch 
+ON (g.champ=ch.id)
+  INNER JOIN "damage" AS dm
+ON (ch.damage=dm.id) WHERE (dm."1lvl dmg">75)
+  GROUP BY ch.champions,dm."1lvl dmg" 
+    order by min_ban_chance
+// запрос выводит персонажей, вероятностью их бана и урон на первом уровне
+	с помощью запроса можно проверить существование зависимости между параметрами(урон и  минимальная вероятность бана) определенной величины (с высоким показателем урона)
+(в данном случае ее нет)
+
+
+
+2
+SELECT  ch.champions,max("pick chance"*"win rate"/100) AS "champ win chance",l.line
+FROM "ingame" AS g  
+  INNER JOIN "champions" AS ch  ON (g.champ=ch.id) 
+  INNER JOIN "lines" AS l  ON (ch.line=l.id AND l.line='top')
+  GROUP BY ch.champions,l.line 
+  ORDER BY "champ win chance"
+// вывод вероятности того, что на определенной линии появится определенный персонаж и его команда победит
