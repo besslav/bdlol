@@ -1,6 +1,6 @@
 CREATE TABLE "damage" (
 	"id" serial NOT NULL,
-	"type" text NOT NULL,
+	"type" VARCHAR(3) NOT NULL,
 	"1lvl dmg" int NOT NULL	CONSTRAINT damage_1lvl_dmg_chk CHECK ("1lvl dmg" > 0),
 	CONSTRAINT damage_pk PRIMARY KEY ("id")
 ) WITH (
@@ -25,7 +25,7 @@ CREATE TABLE "survival" (
 
 CREATE TABLE "lines" (
 	"id" serial NOT NULL,
-	"line" text NOT NULL UNIQUE,
+	"line" VARCHAR(30) NOT NULL UNIQUE,
 	CONSTRAINT lines_pk PRIMARY KEY ("id")
 ) WITH (
   OIDS=FALSE
@@ -35,7 +35,7 @@ CREATE TABLE "lines" (
 
 CREATE TABLE "roles" (
 	"id" serial NOT NULL ,
-	"role" text NOT NULL UNIQUE,
+	"role" VARCHAR(30) NOT NULL UNIQUE,
 	CONSTRAINT roles_pk PRIMARY KEY ("id")
 ) WITH (
   OIDS=FALSE
@@ -43,7 +43,7 @@ CREATE TABLE "roles" (
 
 CREATE TABLE "champions" (
 	"id" serial NOT NULL,
-	"champions" text NOT NULL UNIQUE,
+	"champions" VARCHAR(40) NOT NULL UNIQUE,
 	"damage" int NOT NULL   REFERENCES "damage"("id"),
 	"survival" int NOT NULL REFERENCES "survival"("id"),
 	"line" int NOT NULL     REFERENCES "lines"("id"),
@@ -58,7 +58,7 @@ CREATE TABLE "champions" (
 
 CREATE TABLE "division" (
 	"id" serial NOT NULL ,
-	"div" text NOT NULL UNIQUE,
+	"div" VARCHAR(20) NOT NULL UNIQUE,
 	CONSTRAINT division_pk PRIMARY KEY ("id")
 ) WITH (
   OIDS=FALSE
@@ -277,14 +277,3 @@ INSERT INTO "ingame" ("div","champ","ban chance","win rate","pick chance") VALUE
 (5,	14,	9.1,		51.6	,	2.6),
 (5,	15,	2.5,		51.3	,	1.5)	
 ;
-
-
-
-
-
-
-
-
-
-
-
