@@ -44,13 +44,44 @@ ON (ch.line = l.id)
 //запрос заменяет предыдущий 3 запрос
 
 сложное
+1
+добавил оптимизацию
+create index "champ_ind" on "champions"("id");
+create index "dmg_ind" on "damage"("id");
+befor:
+-> Seq Scan on champions ch (cost=0.00..15.50 rows=550 width=102)
+-> Seq Scan on damage d (cost=0.00..33.55 rows=3 width=24)
+after:
+-> Seq Scan on champions ch (cost=0.00..1.15 rows=15 width=102)
+-> Seq Scan on damage d (cost=0.00..1.23 rows=1 width=24)
+
+
 2
  SELECT DISTINCT ch.champions
 FROM  ingame AS g    
 INNER JOIN champions AS ch ON (g.champ= ch.id) WHERE (g."win rate">50 AND g."pick chance"<1.5);
 // добавил недостающие префиксы
-// в 3ем запросе я не увидел недостающих алиасов
 
+
+
+
+
+
+
+3
+// в 3ем запросе я не увидел недостающих алиасов
+оптимизация
+create index "rol_ind" on "roles"("id");
+create index "lin_ind" on "lines"("id");
+create index "div_ind" on "division"("id");
+//befor:
+ Index Scan using lines_line_key on lines l (cost=0.15..8.17 rows=1 width=82)
+ Index Scan using division_pk on division d (cost=0.15..0.81 rows=1 width=62)
+ Index Scan using roles_pk on roles r (cost=0.15..0.26 rows=1 width=82)
+after:
+Seq Scan on lines l (cost=0.00..1.14 rows=1 width=82)
+Seq Scan on roles r (cost=0.00..1.07 rows=1 width=82)
+Seq Scan on division d (cost=0.00..1.05 rows=5 width=62)
 
 Доп сложные(с группировкой )
 
