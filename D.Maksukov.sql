@@ -27,6 +27,31 @@ CREATE TABLE "champions" (
   OIDS=FALSE
 );
 
+CREATE TABLE "regions" (
+	"region_id" serial PRIMARY KEY ,
+	"region" VARCHAR(30) NOT NULL UNIQUE
+) WITH (
+  OIDS=FALSE
+);
+
+CREATE TABLE "teams" (
+	"team_id" serial PRIMARY KEY ,
+	"team" VARCHAR(30) NOT NULL UNIQUE
+	
+) WITH (
+  OIDS=FALSE
+);
+
+
+CREATE TABLE "players" (
+	"player_id" serial primary key,
+	"player" VARCHAR(40) NOT NULL UNIQUE,
+	"region" int NOT NULL REFERENCES "regions"("region_id"),
+    "team" int NOT NULL REFERENCES "teams"("team_id"),
+    "favorite_champ" int NOT NULL REFERENCES "champions"("champ_id")
+) WITH (
+  OIDS=FALSE
+);
 
 
 
@@ -69,11 +94,6 @@ CREATE TABLE "champ_line" (
 );
 
 
-
-
-
-
-
 INSERT INTO "roles" ("role") VALUES 
 	
 
@@ -84,7 +104,6 @@ INSERT INTO "roles" ("role") VALUES
 ('supp'),
 ('tank')
 ;
-
 
 
 
@@ -102,9 +121,6 @@ INSERT INTO "lines" ("line") VALUES
 
 
 INSERT INTO "champions" ("champions","type","1lvl dmg","hp","armor","mag rez") VALUES 
-
-
-
 ('aatrox',    'ad',91,  666,	66,	66),
 ('ahri',      'ap',70,  572,	52,	78),
 ('dr.mundo',  'ad',78,  834,	90,	72),
@@ -169,7 +185,55 @@ INSERT INTO "champ_line" ("champ_id","line_id") VALUES
 (12,1)
 ;
 
+INSERT INTO "regions" ("region") VALUES
+('Russia'),
+('Europe'),
+('N.America'),
+('asia'),
+('S.America'),
+('australia')
+;
+INSERT INTO "teams" ("team") VALUES
+('skt t1'),
+('brb'),
+('sumsung'),
+('Fnatic'),
+('Cloud9'),
+('G2'),
+('G-REX'),
+('Infinity Esports'),
+('100 Thieves'),
+('Flash Wolves'),
+('Afreeca Freecs'),
+('MAD Team'),
+('Team Vitality'),
+('Gen.G'),
+('improvisation')
+;
 
+
+INSERT INTO "players" ("player","region","team","favorite_champ") VALUES
+('belka',1,1,3),
+('farik',2,14,5),
+('Kuro',3,5,10),
+('Loli',4,10,1),
+('Spirit',5,15,13),
+('TusiN',6,5,7),
+('Betty',4,2,4),
+('Slon',1,8,9),
+('Herri0n',5,11,13),
+('Maple',3,4,5),
+('Blaber',5,6,7),
+('Licorise',1,2,3),
+('Duke',2,10,4),
+('Ning',5,6,11),
+('Baolan',6,6,6),
+('Rookie',2,3,2),
+('TheShy',3,7,14),
+('Wunder',4,9,1),
+('Perkz',6,12,12),
+('Besslav',3,13,14)
+;
 
 
 
