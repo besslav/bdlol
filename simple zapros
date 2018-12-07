@@ -1,0 +1,34 @@
+simple
+// какие бы индексы я не подставлял, все они негативно сказываются на скорости, поэтому записал по одному,лучшему варианту, на запрос
+
+
+1)  SELECT "champ","pick chance"*"win rate"/100 AS "champ win chance" from "ingame"
+    WHERE div=1 ORDER BY "pick chance"*"win rate";
+                                                    
+      create index "div_ind" on ingame(div);
+      
+      //Покажет шанс того, что в случайной игре будет выбран и победит герой
+      
+      
+2)  SELECT "player","team"  from "players"
+    WHERE region=3 ORDER BY "team";
+
+      create index "region_ind" on "players"("region");
+      
+      //выводит игроков и их команду из выбранного региона
+      
+3)  SELECT "champions","1lvl dmg"  from "champions"
+    WHERE type='ad' ORDER BY "1lvl dmg" DESC;
+
+        create index "type_ind" on "champions"("type");
+
+        //выводит персонажей и их урон выбранного типа в порядке убывания(позволяет игроку выбрать самых сильных персонажей)
+
+4)  SELECT "champ","win rate"  from "ingame"
+    WHERE "win rate">50 AND "div"=1
+    ORDER BY "win rate";
+    
+        create index "champ_ind" on "ingame"("champ");
+        
+        //выводит персонажей с положительным процентом побед в выбранном дивизионе    
+        
