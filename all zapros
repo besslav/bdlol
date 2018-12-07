@@ -1,0 +1,18 @@
+simple
+
+1)  SELECT "champ","pick chance"*"win rate"/100 AS "champ win chance" from "ingame"
+    WHERE div=1 ORDER BY "pick chance"*"win rate";
+  
+      create index "pick_ind" on "ingame"("pick chance");
+      create index "champ_ind" on "ingame"("champ");
+      create index "win_ind" on "ingame"("win rate");
+      create index "div_ind" on ingame(div)
+      
+2)  SELECT "player","team"  from "players"
+    WHERE region=3 ORDER BY "team";
+
+      create index "region_ind" on "players"("region");
+      create index "team_ind" on "players"("team");
+      create index "player_ind" on "players"("player");
+      
+3)        
