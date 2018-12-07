@@ -1,6 +1,6 @@
 average:
   
-   1)   SELECT DISTINCT c."champions",d."div" ,i."ban chance",i."win rate",i."pick chance" 
+  1)   SELECT DISTINCT c."champions",d."div" ,i."ban chance",i."win rate",i."pick chance" 
         FROM "ingame" AS i   
         INNER JOIN "division" AS d ON (i.div= d.id) 
         INNER JOIN "champions" AS c ON (i.champ = c.champ_id)
@@ -8,3 +8,23 @@ average:
         ORDER BY c."champions";
 
             create index "div_ind" on "division"("div");
+
+  2)  SELECT DISTINCT c."champions", l."line", r."role"
+      FROM "champions" AS c  
+  
+      INNER JOIN "champ_role"  AS cr
+      ON (c.champ_id= cr.champ_id)
+      INNER JOIN "roles"  AS r
+      ON (cr.role_id= r.role_id)
+  
+      INNER JOIN "champ_line"  AS cl
+      ON (c.champ_id= cl.champ_id)
+      INNER JOIN "lines"  AS l
+      ON (cl.line_id= l.line_id)
+  
+      ORDER BY c."champions"
+  
+          create index "champ_ind" on "champions"("champions");
+          
+  3)        
+  
