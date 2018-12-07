@@ -15,4 +15,9 @@ simple
       create index "team_ind" on "players"("team");
       create index "player_ind" on "players"("player");
       
-3)        
+3)  SELECT "champions","1lvl dmg"  from "champions"
+    WHERE type='ad' ORDER BY "1lvl dmg";
+
+        create index "type_ind" on "champions"("type");
+        create index "dmg_ind" on "champions"("1lvl dmg");
+        create index "champ_ind" on "champions"("champions");      
