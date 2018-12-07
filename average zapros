@@ -1,0 +1,10 @@
+average:
+  
+   1)   SELECT DISTINCT c."champions",d."div" ,i."ban chance",i."win rate",i."pick chance" 
+        FROM "ingame" AS i   
+        INNER JOIN "division" AS d ON (i.div= d.id) 
+        INNER JOIN "champions" AS c ON (i.champ = c.champ_id)
+        WHERE (d.div='silver')
+        ORDER BY c."champions";
+
+            create index "div_ind" on "division"("div");
