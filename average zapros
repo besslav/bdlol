@@ -1,6 +1,6 @@
 average:
   
-  1)   SELECT DISTINCT c."champions",d."div" ,i."ban chance",i."win rate",i."pick chance" 
+  1)   SELECT DISTINCT c."champions",i."ban chance",i."win rate",i."pick chance" 
         FROM "ingame" AS i   
         INNER JOIN "division" AS d ON (i.div= d.id) 
         INNER JOIN "champions" AS c ON (i.champ = c.champ_id)
@@ -8,6 +8,7 @@ average:
         ORDER BY c."champions";
 
             create index "div_ind" on "division"("div");
+            //запрос показывает всех персонажей и их статистику в выбранном дивизионе
 
   2)  SELECT DISTINCT c."champions", l."line", r."role"
       FROM "champions" AS c  
@@ -25,6 +26,14 @@ average:
       ORDER BY c."champions"
   
           create index "champ_ind" on "champions"("champions");
+          //персонажи и все возможные комбинации ролей и линий, которые подходят этим персонажам
           
-  3)        
-  
+  3)   select p.player,t.team 
+       FROM players p 
+       JOIN teams t on (p.team = t.team_id) 
+       JOIN regions rg on(p.region=rg.region_id)
+       where (rg.region = 'asia');
+
+
+            create index "player_ind" on "players"("player");  
+            //выводит всех игроков из выбранного региона и команды, в которых они состоят
