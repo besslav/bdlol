@@ -21,3 +21,11 @@ simple
         create index "type_ind" on "champions"("type");
         create index "dmg_ind" on "champions"("1lvl dmg");
         create index "champ_ind" on "champions"("champions");      
+
+4)  SELECT "champ","win rate"  from "ingame"
+    WHERE "win rate">50 AND "div"=1
+    ORDER BY "win rate";
+
+        create index "win_ind" on "ingame"("win rate");
+        create index "div_ind" on "ingame"("div");
+        create index "champ_ind" on "ingame"("champ");
