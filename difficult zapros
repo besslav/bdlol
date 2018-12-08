@@ -13,3 +13,18 @@ difficult:
         ORDER BY "champions";
         
         create index "win_ind" on "ingame"("win rate");
+
+   2)WITH "pref line" AS 
+	(SELECT c."champ_id",c."champions",l."line" 
+     		FROM champions AS c 
+     			INNER JOIN "champ_line" AS cl ON (c."champ_id"=cl."champ_id") 
+			INNER JOIN "lines" AS l ON (cl."line_id"=l."line_id") 
+    	WHERE l.line='top')
+    SELECT  pl."champions", p."player", t."team"
+	FROM "pref line" AS pl 
+        	INNER JOIN "players" AS p ON (pl."champ_id"=p."favorite_champ")
+            	INNER JOIN "teams" AS t ON (p."team"=t."team_id")
+    ORDER BY "champions";
+
+
+create index champ_ind on "champions"("champions");
