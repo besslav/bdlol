@@ -1,0 +1,15 @@
+difficult:
+  1)  with "high stats champ" AS 
+		  (
+  		  	SELECT "champ_id","champions","1lvl dmg","hp" FROM "champions" AS c 
+  			  WHERE c."1lvl dmg">75 AND c."hp">700
+	  	)
+      SELECT   hsc."champions",MAX(i."win rate") as "max win rate" 
+	      FROM "high stats champ" AS hsc 
+	      INNER JOIN "ingame" AS i
+        ON (hsc."champ_id"=i."champ")
+        WHERE i."win rate">50
+		    GROUP BY "champions"
+        ORDER BY "champions";
+        
+        create index "win_ind" on "ingame"("win rate");
