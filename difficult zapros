@@ -14,6 +14,8 @@ difficult:
         
         create index "win_ind" on "ingame"("win rate");
 
+	// запрос выводит персонажей с наилучшими характеристиками, у которых положительнный процент побед(>50%)   
+
    2)WITH "pref line" AS 
 	(SELECT c."champ_id",c."champions",l."line" 
      		FROM champions AS c 
@@ -28,3 +30,6 @@ difficult:
 
 
 create index champ_ind on "champions"("champions");
+
+	//запрос выводит всех персонажей, которые обычно стоят на заданной линии,
+	//а также про игроков (и их команды), которые предпочитают играть за этих персонажей
