@@ -33,3 +33,21 @@ create index champ_ind on "champions"("champions");
 
 	//запрос выводит всех персонажей, которые обычно стоят на заданной линии,
 	//а также про игроков (и их команды), которые предпочитают играть за этих персонажей
+
+3)	WITH "role in game" AS 
+		(SELECT c."champ_id",c."champions",r."role",c."1lvl dmg" 
+     			FROM champions AS c 
+     				INNER JOIN "champ_role" AS cr ON (c."champ_id"=cr."champ_id") 
+				INNER JOIN "roles" AS r ON (cr."role_id"=r."role_id") 
+    		WHERE r.role='assassin')
+    
+        SELECT  rig."champions",rig."1lvl dmg", i."pick chance" 
+		FROM "role in game" AS rig 
+        		INNER JOIN "ingame" AS i ON (rig."champ_id"=i."champ") WHERE (i."div"=1)
+	ORDER BY "1lvl dmg";
+
+
+	create index champ_ind on "champions"("champions");
+	
+//запрос выводит персонажа, его личную характеристику и 1 гломальную характеристику в заданном дивизионе
+	позволяет проверить факт наличия зависимости между определенной характеристикой и статистикой персонажа
