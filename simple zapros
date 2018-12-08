@@ -17,6 +17,14 @@ simple
       
       //выводит игроков и их команду из выбранного региона
       
+2.1)  SELECT "champions","hp","hp"/((SELECT AVG("1lvl dmg") FROM champions)-("armor"/10)) 
+      AS "kolvo ad attack","hp"/((SELECT AVG("1lvl dmg") FROM champions)-("mag rez"/10)) 
+      AS "kolvo ap attack"  FROM champions;
+                                                                    
+         // вывод персонажа, его здоровье и за сколько атак разными типами урона он будет убит                                                           
+                                                                    
+create index "champions_ind" on "champions"("champions");      
+      
 3)  SELECT "champions","1lvl dmg"  from "champions"
     WHERE type='ad' ORDER BY "1lvl dmg" DESC;
 
