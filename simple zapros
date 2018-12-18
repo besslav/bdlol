@@ -3,7 +3,7 @@ simple
 
 
 1)  SELECT "champ","pick chance"*"win rate"/100 AS "champ win chance" from "ingame"
-    WHERE div=1 ORDER BY "pick chance"*"win rate";
+    WHERE div=1 ORDER BY "champ win chance";
                                                     
       create index "div_ind" on ingame(div);
       
@@ -26,7 +26,9 @@ simple
 create index "champions_ind" on "champions"("champions");      
       
 3)  SELECT "champions","1lvl dmg"  from "champions"
-    WHERE type='ad' ORDER BY "1lvl dmg" DESC;
+    WHERE type='ad' 
+    ORDER BY "1lvl dmg" DESC
+    LIMIT 5
 
         create index "type_ind" on "champions"("type");
 
@@ -34,9 +36,10 @@ create index "champions_ind" on "champions"("champions");
 
 4)  SELECT "champ","win rate"  from "ingame"
     WHERE "win rate">50 AND "div"=1
-    ORDER BY "win rate";
+    ORDER BY "win rate"
+    OFFSET 5
     
-        create index "champ_ind" on "ingame"("champ");
+        create index "div_ind" on "ingame"("div"); // оптимизация уже использовалась для 1 запроса, полезна и тут
         
         //выводит персонажей с положительным процентом побед в выбранном дивизионе    
         
