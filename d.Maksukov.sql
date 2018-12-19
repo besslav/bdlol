@@ -17,7 +17,7 @@ CREATE TABLE "roles" (
 
 CREATE TABLE "champions" (
 	"champ_id" serial primary key,
-	"champions" VARCHAR(30) NOT NULL UNIQUE,
+	"champions" VARCHAR(30) NOT NULL ,
 	"type" VARCHAR(2) NOT NULL,
 	"1lvl dmg" int NOT NULL	CONSTRAINT damage_1lvl_dmg_chk CHECK (("1lvl dmg" > 40) AND ("1lvl dmg" <100 )),
 	"hp"   int NOT NULL	CONSTRAINT survival_hp_chk CHECK (("hp" > 500) AND ("hp" <1000)),
@@ -30,6 +30,7 @@ CREATE TABLE "champions" (
 );
 
 create index "type_ind" on "champions"("type");
+create UNIQUE index "champions_ind" on "champions"("champions"); 
 
 
 CREATE TABLE "regions" (
@@ -85,6 +86,7 @@ CREATE TABLE "ingame" (
 );
 
 create index "div_ind" on ingame(div);
+create index "champ_ind" on ingame(champ);
 
 CREATE TABLE "champ_role" (
 	"champ_id" int   REFERENCES "champions",
