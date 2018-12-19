@@ -1,10 +1,8 @@
 simple
-// какие бы индексы я не подставлял, все они негативно сказываются на скорости, поэтому записал по одному,лучшему варианту, на запрос
-
 
 1)  SELECT "champ","pick chance"*"win rate"/100 AS "champ win chance" from "ingame"
-    WHERE div=1 ORDER BY "champ win chance";
-                                                    
+    WHERE div=1 ORDER BY "champ win chance"
+                                         
       create index "div_ind" on ingame(div);
       
       //Покажет шанс того, что в случайной игре будет выбран и победит герой
@@ -41,5 +39,13 @@ create index "champions_ind" on "champions"("champions");
     
         create index "div_ind" on "ingame"("div"); // оптимизация уже использовалась для 1 запроса, полезна и тут
         
-        //выводит персонажей с положительным процентом побед в выбранном дивизионе    
+        //выводит персонажей с положительным процентом побед в выбранном дивизионе 
+        
+5) SELECT players.region,count(*) 
+from players GROUP BY players.region
+ORDER by players.region;  
+
+        create index player_region_ind on players(region);
+        // выводит регионы и количество игроков из этих регионов, позволяет обнаружить самые киберспортивные регионы
+        
         
