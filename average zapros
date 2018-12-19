@@ -7,7 +7,7 @@ average:
         WHERE (d.div='silver')
         ORDER BY c."champions";
 
-            create index "div_ind" on "division"("div");
+            create UNIQUE index "real div_ind" on "division"("div");
             //запрос показывает всех персонажей и их статистику в выбранном дивизионе
 
   2)  SELECT DISTINCT c."champions", l."line", r."role"
@@ -37,3 +37,13 @@ average:
 
             create index "player_ind" on "players"("player");  
             //выводит всех игроков из выбранного региона и команды, в которых они состоят
+            
+   4)SELECT r.region,count(p.region) as "kolichestvo igrokov"
+from players as p
+INNER JOIN regions as r ON (p.region= r.region_id)
+GROUP BY r.region
+ORDER BY "kolichestvo igrokov" DESC         
+            
+  create UNIQUE index "region_ind" on "regions"("region"); // поиск по стране
+  create index player_region_ind on players(region); // индекс для склейки таблиц
+  // выводит страны и количество игроков из этих стран, позволяет выявить самые киберспортивные страны
