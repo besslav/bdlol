@@ -22,7 +22,9 @@ CREATE TABLE "champions" (
 	"1lvl dmg" int NOT NULL	CONSTRAINT damage_1lvl_dmg_chk CHECK (("1lvl dmg" > 40) AND ("1lvl dmg" <100 )),
 	"hp"   int NOT NULL	CONSTRAINT survival_hp_chk CHECK (("hp" > 500) AND ("hp" <1000)),
 	"armor" int NOT NULL	CONSTRAINT survival_armor_chk     CHECK (("armor" > 40) AND ("armor" <100 )),
-	"mag rez" int NOT NULL CONSTRAINT survival_mag_rez_chk  CHECK (("mag rez" > 40) AND ("mag rez" <100 ))
+	"mag rez" int NOT NULL CONSTRAINT survival_mag_rez_chk  CHECK (("mag rez" > 40) AND ("mag rez" <100 )),
+     "attack speed" float NOT NULL CONSTRAINT atspeed_chk CHECK (("attack speed">0.5) AND ("attack speed"<1))                                                                                    
+                                                                                         
 ) WITH (
   OIDS=FALSE
 );
@@ -53,12 +55,13 @@ CREATE TABLE "players" (
 	"player" VARCHAR(20) NOT NULL UNIQUE,
 	"region" int NOT NULL REFERENCES "regions"("region_id"),
     "team" int NOT NULL REFERENCES "teams"("team_id"),
+    "birth_date" DATE CONSTRAINT "birth day chk" CHECK ((birth_date > '1970-01-01') AND (birth_date < '2018-12-19')),
     "favorite_champ" int NOT NULL REFERENCES "champions"("champ_id")
 ) WITH (
   OIDS=FALSE
 );
 
-
+create index player_region_ind on players(region);
 
 CREATE TABLE "division" (
 	"id" serial NOT NULL ,
@@ -68,10 +71,10 @@ CREATE TABLE "division" (
   OIDS=FALSE
 );
 
-create UNIQUE index "div_ind" on "division"("div");
+create UNIQUE index "real div_ind" on "division"("div");
 
 CREATE TABLE "ingame" (
-  
+  	"ing_id" serial primary key,
 	"div" int NOT NULL	REFERENCES "division"("id"),
 	"champ" int NOT NULL	REFERENCES "champions"("champ_id"),
 	"ban chance" float NOT NULL	CONSTRAINT ingame_ban_chance_chk CHECK (("ban chance" > 0) AND ("ban chance"<100)),
@@ -117,7 +120,10 @@ INSERT INTO "roles" ("role") VALUES
 ('mage'),
 ('adc'),
 ('supp'),
-('tank')
+('tank'),
+('fidder'),
+('afkplay'),
+('ryiner')
 ;
 
 
@@ -127,7 +133,11 @@ INSERT INTO "lines" ("line") VALUES
 ('mid'),
 ('jungle'),
 ('adc'),
-('supp')
+('supp'),
+('allrand'),
+('everywhere'),
+('base'),
+('enemy')
 ;
 
 
@@ -135,22 +145,22 @@ INSERT INTO "lines" ("line") VALUES
 
 
 
-INSERT INTO "champions" ("champions","type","1lvl dmg","hp","armor","mag rez") VALUES 
-('aatrox',    'ad',91,  666,	66,	66),
-('ahri',      'ap',70,  572,	52,	78),
-('dr.mundo',  'ad',78,  834,	90,	72),
-('draven',    'ad',85,  643,	64,	74),
-('fiora',     'ad',82,  715,	87,	93),
-('akali',     'ap',73,  625,	57,	81),
-('sona',      'ap',65,  537,	83,	66),
-('hecarim',   'ad',75,  804,	62,	63),
-('fizz',      'ap',74,  746,	94,	72),
-('nautilus',  'ad',69,  819,	75,	57),
-('twitch',    'ad',86,  682,	86,	62),
-('brand',     'ap',67,  698,	72,	72),
-('olaf',      'ad',82,  782,	96,	51),
-('teemo',     'ap',61,  614,	55,	56),
-('irelia',    'ad',90,  759,	72,	83)
+INSERT INTO "champions" ("champions","type","1lvl dmg","hp","armor","mag rez","attack speed") VALUES 
+('aatrox',    'ad',91,  666,	66,	66,	0.66),
+('ahri',      'ap',70,  572,	52,	78,	0.95),
+('dr.mundo',  'ad',78,  834,	90,	72,	0.64),
+('draven',    'ad',85,  643,	64,	74,	0.86),
+('fiora',     'ad',82,  715,	87,	93,	0.88),
+('akali',     'ap',73,  625,	57,	81,	0.99),
+('sona',      'ap',65,  537,	83,	66,	0.83),
+('hecarim',   'ad',75,  804,	62,	63,	0.75),
+('fizz',      'ap',74,  746,	94,	72,	0.67),
+('nautilus',  'ad',69,  819,	75,	57,	0.65),
+('twitch',    'ad',86,  682,	86,	62,	0.94),
+('brand',     'ap',67,  698,	72,	72,	0.83),
+('olaf',      'ad',82,  782,	96,	51,	0.71),
+('teemo',     'ap',61,  614,	55,	56,	0.64),
+('irelia',    'ad',90,  759,	72,	83,	0.86)
 ;
 
 
@@ -174,7 +184,13 @@ INSERT INTO "champ_role" ("champ_id","role_id") VALUES
 (2,4),
 (11,5),
 (5,5),
-(12,1)
+(12,1),
+(11,7),
+(7,8),
+(8,9),
+(1,7),
+(12,8),
+(5,9)
 ;
 
 INSERT INTO "champ_line" ("champ_id","line_id") VALUES
@@ -197,16 +213,27 @@ INSERT INTO "champ_line" ("champ_id","line_id") VALUES
 (2,4),
 (11,5),
 (5,1),
-(12,1)
+(12,1),
+(5,6),
+(6,7),
+(7,8),
+(8,9),
+(9,6),
+(1,7),
+(2,8),
+(11,9)
 ;
 
 INSERT INTO "regions" ("region") VALUES
 ('Russia'),
-('Europe'),
-('N.America'),
-('asia'),
-('S.America'),
-('australia')
+('S.Korea'),
+('U.S.A.'),
+('Japan'),
+('Canada'),
+('australia'),
+('Germany'),
+('France'),
+('Great Britain')
 ;
 INSERT INTO "teams" ("team") VALUES
 ('skt t1'),
@@ -227,27 +254,27 @@ INSERT INTO "teams" ("team") VALUES
 ;
 
 
-INSERT INTO "players" ("player","region","team","favorite_champ") VALUES
-('belka',1,1,3),
-('farik',2,14,5),
-('Kuro',3,5,10),
-('Loli',4,10,1),
-('Spirit',5,15,13),
-('TusiN',6,5,7),
-('Betty',4,2,4),
-('Slon',1,8,9),
-('Herri0n',5,11,13),
-('Maple',3,4,5),
-('Blaber',5,6,7),
-('Licorise',1,2,3),
-('Duke',2,10,4),
-('Ning',5,6,11),
-('Baolan',6,6,6),
-('Rookie',2,3,2),
-('TheShy',3,7,14),
-('Wunder',4,9,1),
-('Perkz',6,12,12),
-('Besslav',3,13,14)
+INSERT INTO "players" ("player","region","team","birth_date","favorite_champ") VALUES
+('belka',1,1,'1998-05-01',3),
+('farik',2,14,'1988-11-01',5),
+('Kuro',3,5,'1987-01-04',10),
+('Loli',4,10,'1986-01-11',1),
+('Spirit',5,15,'1998-06-11',13),
+('TusiN',6,5,'1987-01-02',7),
+('Betty',7,2,'1996-03-01',4),
+('Slon',8,8,'1989-04-01',9),
+('Herri0n',9,11,'1978-05-01',13),
+('Maple',1,4,'1979-06-01',5),
+('Blaber',2,6,'1988-07-01',7),
+('Licorise',3,2,'1973-08-01',3),
+('Duke',4,10,'1976-01-12',4),
+('Ning',5,6,'1984-07-01',11),
+('Baolan',6,6,'1985-06-01',6),
+('Rookie',7,3,'1986-08-03',2),
+('TheShy',8,7,'1991-05-09',14),
+('Wunder',9,9,'1992-07-08',1),
+('Perkz',6,12,'1993-05-07',12),
+('Besslav',3,13,'1994-03-07',14)
 ;
 
 
