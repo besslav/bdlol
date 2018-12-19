@@ -21,7 +21,7 @@ simple
                                                                     
          // вывод персонажа, его здоровье и за сколько атак разными типами урона он будет убит                                                           
                                                                     
-create index "champions_ind" on "champions"("champions");      
+create UNIQUE index "champions_ind" on "champions"("champions");     
       
 3)  SELECT "champions","1lvl dmg"  from "champions"
     WHERE type='ad' 
@@ -41,11 +41,14 @@ create index "champions_ind" on "champions"("champions");
         
         //выводит персонажей с положительным процентом побед в выбранном дивизионе 
         
-5) SELECT players.region,count(*) 
-from players GROUP BY players.region
-ORDER by players.region;  
+        
+   5)    SELECT  "champ",max("win rate"),avg("win rate") ,min("win rate") from "ingame"  
+                GROUP BY "champ"
+                ORDER BY avg  
+   
+            create index "champ_ind" on ingame(champ);
+        // вывод персонажа и его процета побед (максимального, среднего и минимального)
+            игрок сможет примерно(на сколько это позволяют среднестатистические данные) представлять, какой результативности он сможет достичь,
+            играя данным персонажем персонажем;
+            как только игрок разберется с основами игры за персонажа, его процент побед врятли будет сильно отличаться от средних значений
 
-        create index player_region_ind on players(region);
-        // выводит регионы и количество игроков из этих регионов, позволяет обнаружить самые киберспортивные регионы
-        
-        
