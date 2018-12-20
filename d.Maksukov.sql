@@ -114,8 +114,10 @@ create index player_region_ind on players(region);
 create index "type_ind" on "champions"("type");
 create UNIQUE index "champions_ind" on "champions"("champions"); 
 create UNIQUE index "region_ind" on "regions"("region");
-
-
+ create index "dmg_ind" on "champions"("1lvl dmg");
+create index "win_rate_ind" on "ingame"("win rate"); 
+create index favorite_ind on "players"("favorite_champ");
+create index team_ind on "teams"("team");
 
 INSERT INTO "roles" ("role") VALUES 
 	
