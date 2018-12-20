@@ -4,11 +4,13 @@ average:
         FROM "ingame" AS i   
         INNER JOIN "division" AS d ON (i.div= d.id) 
         INNER JOIN "champions" AS c ON (i.champ = c.champ_id)
-        WHERE (d.div='silver')
+        WHERE (d.div=_DIV_)
         ORDER BY i."win rate" limit 7   
         
         допустимые параметры:
-              
+              _DIV_='silver'
+              _DIV_='gold'
+              _DIV_='diamond'
 
             create UNIQUE index "real div_ind" on "division"("div");
             create index "champ_ind" on ingame(champ); // индекс для склейки таблиц
