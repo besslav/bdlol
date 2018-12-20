@@ -29,8 +29,7 @@ CREATE TABLE "champions" (
   OIDS=FALSE
 );
 
-create index "type_ind" on "champions"("type");
-create UNIQUE index "champions_ind" on "champions"("champions"); 
+
 
 
 CREATE TABLE "regions" (
@@ -40,7 +39,7 @@ CREATE TABLE "regions" (
   OIDS=FALSE
 );
 
-create UNIQUE index "region_ind" on "regions"("region");
+
 
 CREATE TABLE "teams" (
 	"team_id" serial PRIMARY KEY ,
@@ -62,7 +61,7 @@ CREATE TABLE "players" (
   OIDS=FALSE
 );
 
-create index player_region_ind on players(region);
+
 
 CREATE TABLE "division" (
 	"id" serial NOT NULL ,
@@ -72,7 +71,7 @@ CREATE TABLE "division" (
   OIDS=FALSE
 );
 
-create UNIQUE index "real div_ind" on "division"("div");
+
 
 CREATE TABLE "ingame" (
   	"ing_id" serial primary key,
@@ -85,8 +84,7 @@ CREATE TABLE "ingame" (
   OIDS=FALSE
 );
 
-create index "div_ind" on ingame(div);
-create index "champ_ind" on ingame(champ);
+
 
 CREATE TABLE "champ_role" (
 	"champ_id" int   REFERENCES "champions",
@@ -109,8 +107,13 @@ CREATE TABLE "champ_line" (
 
 create  index "role_ind" on "roles"("role");
 create  index "line_ind" on "lines"("line");
-
-
+create index "div_ind" on ingame(div);
+create index "champ_ind" on ingame(champ);
+create UNIQUE index "real div_ind" on "division"("div");
+create index player_region_ind on players(region);
+create index "type_ind" on "champions"("type");
+create UNIQUE index "champions_ind" on "champions"("champions"); 
+create UNIQUE index "region_ind" on "regions"("region");
 
 
 
