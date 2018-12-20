@@ -8,16 +8,12 @@ simple
       //Покажет шанс того, что в случайной игре будет выбран и победит герой
       
       
-2)  SELECT "player","team"  from "players"
-    WHERE region=3 ORDER BY "team";
-
-      create index "region_ind" on "players"("region");
-      
-      //выводит игроков и их команду из выбранного региона
+  
       
 2.1)  SELECT "champions","hp","hp"/((SELECT AVG("1lvl dmg") FROM champions)-("armor"/10)) 
       AS "kolvo ad attack","hp"/((SELECT AVG("1lvl dmg") FROM champions)-("mag rez"/10)) 
-      AS "kolvo ap attack"  FROM champions;
+      AS "kolvo ap attack"  FROM champions
+      ORDER BY "hp"
                                                                     
          // вывод персонажа, его здоровье и за сколько атак разными типами урона он будет убит                                                           
                                                                     
