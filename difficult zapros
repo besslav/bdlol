@@ -12,7 +12,8 @@ difficult:
 		    GROUP BY "champions"
         ORDER BY "champions";
         
-        create index "win_ind" on "ingame"("win rate");
+        create index "region_ind" on "champions"("1lvl dmg");
+ 	create  index "region1_ind" on "ingame"("win rate"); 
 
 	// запрос выводит персонажей с наилучшими характеристиками, у которых положительнный процент побед(>50%)   
 
@@ -47,7 +48,7 @@ create index champ_ind on "champions"("champions");
 	ORDER BY "1lvl dmg";
 
 
-	create index champ_ind on "champions"("champions");
+	create index champ_ind on "ingame"("champ");
 	
 //запрос выводит персонажа, его личную характеристику и 1 гломальную характеристику в заданном дивизионе
 	позволяет проверить факт наличия зависимости между определенной характеристикой и статистикой персонажа
