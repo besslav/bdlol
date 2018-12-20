@@ -20,9 +20,13 @@ simple
 create UNIQUE index "champions_ind" on "champions"("champions");     
       
 3)  SELECT "champions","1lvl dmg"  from "champions"
-    WHERE type='ad' 
+    WHERE type=_TYPE_ 
     ORDER BY "1lvl dmg" DESC
     LIMIT 5
+
+    допустимые параметры
+            _TYPE_='ad'
+            _TYPE_='ap'
 
         create index "type_ind" on "champions"("type");
 
