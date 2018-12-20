@@ -5,9 +5,13 @@ average:
         INNER JOIN "division" AS d ON (i.div= d.id) 
         INNER JOIN "champions" AS c ON (i.champ = c.champ_id)
         WHERE (d.div='silver')
-        ORDER BY c."champions";
+        ORDER BY i."win rate" limit 7   
+        
+        допустимые параметры:
+              
 
             create UNIQUE index "real div_ind" on "division"("div");
+            create index "champ_ind" on ingame(champ); // индекс для склейки таблиц
             //запрос показывает всех персонажей и их статистику в выбранном дивизионе
 
   2)  SELECT DISTINCT c."champions", l."line", r."role"
@@ -25,18 +29,11 @@ average:
   
       ORDER BY c."champions"
   
-          create index "champ_ind" on "champions"("champions");
+          create index "champ1_ind" on "roles"("role");
+          create index "champ2_ind" on "lines"("line");
           //персонажи и все возможные комбинации ролей и линий, которые подходят этим персонажам
           
-  3)   select p.player,t.team 
-       FROM players p 
-       JOIN teams t on (p.team = t.team_id) 
-       JOIN regions rg on(p.region=rg.region_id)
-       where (rg.region = 'asia');
 
-
-            create index "player_ind" on "players"("player");  
-            //выводит всех игроков из выбранного региона и команды, в которых они состоят
             
    4)SELECT r.region,count(p.region) as "kolichestvo igrokov"
 from players as p
