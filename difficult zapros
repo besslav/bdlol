@@ -30,7 +30,8 @@ difficult:
     ORDER BY "champions";
 
 
-create index champ_ind on "champions"("champions");
+create index champ_ind on "players"("favorite_champ");
+create index champ1_ind on "teams"("team");
 
 	//запрос выводит всех персонажей, которые обычно стоят на заданной линии,
 	//а также про игроков (и их команды), которые предпочитают играть за этих персонажей
