@@ -1,0 +1,38 @@
+﻿hard:
+1
+SELECT ch.champions,d.type,  d."1lvl dmg"
+FROM "champions" AS ch 
+  INNER JOIN "damage" AS d 
+ ON ( ch.damage = d.id AND  d.type = 'ad' AND d."1lvl dmg">75  )
+ ORDER BY d."1lvl dmg";
+//запрос выбирает персонажей с достаточно высоким показателем ad урона
+     
+2
+	
+ SELECT DISTINCT ch.champions
+FROM  ingame AS g    
+INNER JOIN   champions AS ch ON (g.champ= ch.id) WHERE ("win rate">50 AND "pick chance"<1.5);
+ //запрос выбирает не популярных(низкий pick chance) персонажей с высоким процентом побед хотябы в 1 дивизионе
+3
+ 
+SELECT DISTINCT ch.champions,l.line,r.role,d.div,g."win rate"  
+FROM "ingame" AS g
+  INNER JOIN "division" AS d
+ON (g.div=d.id)
+  INNER JOIN "champions" AS ch 
+ON (g.champ=ch.id)
+  INNER JOIN "lines" AS l
+ON ( ch.line = l.id AND  l.line = 'mid'   )
+  INNER JOIN "roles" AS r 
+ON (ch.role=r.id AND r.role='mage')
+
+ORDER BY g."win rate"
+//запрос показывает процент побед в зависимости от дивизиона для персонажа, стоящего на заданной линии с определенной ролью
+
+
+
+
+
+
+
+
